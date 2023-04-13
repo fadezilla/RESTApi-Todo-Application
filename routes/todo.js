@@ -42,7 +42,7 @@ router.post('/', jsonParser, async function(req, res, next) {
       const result = await todoService.create(name, categoryId, userId);
       res.jsend.success(result);
     } catch (error) {
-      res.jsend.error(error);
+      res.jsend.fail({ message: 'an error has occurred, please check if the categoryId exists'});
     }
   });
 });
