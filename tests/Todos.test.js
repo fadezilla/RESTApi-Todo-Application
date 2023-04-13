@@ -1,7 +1,6 @@
 const request = require('supertest');
 const app = require('../app');
 const { sequelize } = require('../models');
-const jwt = require('jsonwebtoken');
 const { describe, expect, test } = require('@jest/globals');
 require('dotenv').config()
 
@@ -54,7 +53,7 @@ describe('Todo API', () => {
       expect(response.statusCode).toEqual(200);
       expect(response.body.status).toEqual('success');
       expect(response.body.data).toBeDefined();
-      createdTodo = response.body.data;
+      createdTodo = response.body.data; // saving the data from the newly created Todo, so we can use it later in the delete test!
     });
     test('GET /todos - error - Should return an error when trying to get todos without a token', async () => {
       const response = await request(app).get('/todos');
@@ -70,7 +69,7 @@ describe('Todo API', () => {
 
     test('DELETE /todos/:id - success - should delete a todo when using a valid token', async () => {
         const response = await request(app)
-        .delete(`/todos/${createdTodo.id}`)
+        .delete(`/todos/${createdTodo.id}`) // using the todo item data we saved earlier to use the id, to delete the same todo we created.
         .set('Authorization', `Bearer ${token}`);
         expect(response.statusCode).toEqual(200);
         expect(response.body.status).toEqual('success');
