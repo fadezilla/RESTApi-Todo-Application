@@ -20,7 +20,7 @@ describe('Todo API', () => {
       request(app)
         .post('/login')
         .send({
-          email: process.env.TEST_EMAIL,
+          email: process.env.TEST_EMAIL, //using the test user credentials saved inside the .env file.
           password: process.env.TEST_PASSWORD,
         })
         .end((err, response) => {

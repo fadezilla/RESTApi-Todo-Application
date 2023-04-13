@@ -67,5 +67,26 @@ router.delete('/:id', async function(req, res, next) {
 })
 });
 
+router.put('/:id', jsonParser, async function(req, res, next) {
+  const categoryId = req.params.id;
+  const { name } = req.body;
+  const token = req.headers.authorization?.split(' ')[1];
+  if(token == null)
+  return res.sendStatus(401);
+  jwt.verify(token, process.env.TOKEN_SECRET, async (err, user) => {
+    if(err)
+    return res.sendStatus(403);
+    try {
+      const result = await categoryService.update(categoryId, name);
+      if(result[0] === 0) {
+        res.status(404).jsend.fail({ message: 'Category not found'});
+      } else {
+        res.jsend.success({ message: 'Category updated successfully!'});
+      }
+    } catch (error) {
+      res.jsend.error(error);
+    }
+  })
+});
 
 module.exports = router;

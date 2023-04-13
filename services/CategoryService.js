@@ -7,6 +7,13 @@ class CategoryService {
     async getAll() {
       return this.Category.findAll();
     }
+    
+   async update(id, name) {
+    return this.Category.update(
+      { name },
+      { where: { id } }
+    );
+   }
   
     async create(name) {
       return this.Category.create({
