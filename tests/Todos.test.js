@@ -16,7 +16,7 @@ describe('Todo API', () => {
     let createdTodo;
   
     beforeAll((done) => {
-      // Login with a valid test account and save the token
+      // login with a valid test account and save the token
       request(app)
         .post('/login')
         .send({
